@@ -1,0 +1,57 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: pip install --upgrade pip setuptools wheel pybind11 pytest
+
+      - name: Build and install (editable)
+        run: pip install -e .
+
+      - name: Run tests
+        run: pytest tests -v
+
+  build-sdist:
+    name: Build sdist
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install build backend
+        run: pip install --upgrade pip build
+
+      - name: Build source distribution
+        run: python -m build --sdist
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sdist
+          path: dist/*.tar.gz

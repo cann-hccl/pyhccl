@@ -1,0 +1,32 @@
+# clang-format 配置：统一 pyhccl 的 C++ 代码风格。
+# 运行 `clang-format` 时自动读取本文件；CI 中用 `clang-format --dry-run -Werror` 校验。
+
+---
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++17
+
+# 缩进
+IndentWidth: 4
+ContinuationIndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+NamespaceIndentation: None
+
+# 行长与换行
+ColumnLimit: 120
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Allman
+BinPackArguments: true
+BinPackParameters: true
+
+# 指针/引用对齐（贴近 pyhccl 源码头文件风格：Type* name）
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+# 保持现有 include 分组，不自动重排
+SortIncludes: false
