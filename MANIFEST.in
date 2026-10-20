@@ -1,0 +1,8 @@
+# sdist 中需要包含 C++ 头文件（abi.hpp / loader.hpp / wrappers.hpp），
+# 否则从源码包构建会因缺少这些 include 而失败。
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include src/csrc *.h *.hpp
+recursive-include src/pyhccl *.py py.typed
+recursive-include tests *.py

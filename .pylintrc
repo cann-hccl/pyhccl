@@ -1,0 +1,36 @@
+# pylint 配置：面向 pybind11 绑定包（pyhccl._C 为编译扩展，符号动态导出）。
+
+[MASTER]
+# 忽略构建产物目录。
+ignore = build, dist, *.egg-info
+# 允许 astroid 导入并内省该编译扩展模块，从而识别 _C 上的动态成员。
+extension-pkg-allow-list = pyhccl._C
+# 最低评分阈值（0~10），低于该值 CI 失败；此处取宽松值。
+fail-under = 8.0
+
+[MESSAGES CONTROL]
+# 关掉对绑定包/测试无意义或过于严苛的告警。
+disable =
+    # pyhccl 通过 `globals()[...]` 从 pyhccl._C 动态导出数百个 C API 符号
+    # （Hccl*/Hcomm*/HCCL_*/COMM_* 等），静态分析无法识别，故关闭 no-member。
+    no-member,
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    duplicate-code,
+    fixme,
+    too-few-public-methods,
+    too-many-instance-attributes,
+    too-many-arguments,
+    too-many-locals,
+    too-many-branches,
+    too-many-statements,
+    protected-access
+
+[FORMAT]
+max-line-length = 120
+max-module-lines = 3000
+
+[REPORTS]
+output-format = text
+score = yes
