@@ -7,8 +7,12 @@ on:
 
 jobs:
   build-wheels:
-    name: Build wheels
-    runs-on: ubuntu-latest
+    name: Build wheels (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -51,7 +55,7 @@ jobs:
     name: Publish to PyPI
     needs:
       - build-wheels
-      - build-sdist
+      - build-sdist]
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
