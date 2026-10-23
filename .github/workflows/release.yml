@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-13, windows-2022]
+        os: [ubuntu-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -53,7 +53,9 @@ jobs:
 
   publish:
     name: Publish to PyPI
-    needs: [build-wheels, build-sdist]
+    needs:
+      - build-wheels
+      - build-sdist]
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
